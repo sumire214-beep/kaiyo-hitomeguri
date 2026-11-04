@@ -1,0 +1,745 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>海陽ひとめぐり帖</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=DotGothic16&family=Zen+Maru+Gothic:wght@500;700&display=swap">
+<style>
+/* Layout: a hand-printed town zine — one framed "stage" (scene / map) on top, a working panel underneath; two-ink riso feel (sea teal + sun yellow) */
+:root{
+  --paper:#EEF1EA; --paper-2:#E1E6DB; --ink:#1C2630; --ink-soft:#56636B;
+  --teal:#00808A; --yellow:#F3C33C; --signal:#D9506B; --on-accent:#FFFFFF; --on-yellow:#1C2630;
+  --veil:rgba(28,38,48,.42);
+  --f-display:"Dela Gothic One","Hiragino Sans","Yu Gothic",sans-serif;
+  --f-body:"Zen Maru Gothic","Hiragino Maru Gothic ProN","Yu Gothic",sans-serif;
+  --f-dot:"DotGothic16","Osaka-Mono",monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --paper:#121A1F; --paper-2:#1B252B; --ink:#E5EBE3; --ink-soft:#98A6A8;
+  --teal:#3BB4BA; --yellow:#F0C64E; --signal:#F07D92; --on-accent:#0F171B; --on-yellow:#1C2630;
+  --veil:rgba(5,10,13,.6); color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#121A1F; --paper-2:#1B252B; --ink:#E5EBE3; --ink-soft:#98A6A8;
+  --teal:#3BB4BA; --yellow:#F0C64E; --signal:#F07D92; --on-accent:#0F171B; --on-yellow:#1C2630;
+  --veil:rgba(5,10,13,.6); color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font-family:var(--f-body);font-weight:500;font-size:15px;line-height:1.7}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible,input:focus-visible,[tabindex]:focus-visible{outline:3px solid var(--yellow);outline-offset:2px}
+.app{max-width:1000px;margin:0 auto;padding-block:14px 40px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:14px}
+
+/* header */
+.bar{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px}
+.brand{font-family:var(--f-display);font-size:20px;letter-spacing:.04em;text-shadow:2px 1px 0 var(--yellow)}
+.when{font-family:var(--f-dot);font-size:15px;background:var(--ink);color:var(--paper);padding:2px 10px;border-radius:3px}
+.cal{display:flex;gap:2px;align-items:flex-end;flex:1 1 200px;min-width:0}
+.cal i{flex:1;height:7px;max-width:14px;background:var(--paper-2);border:1px solid var(--ink-soft)}
+.cal i.done{background:var(--teal);border-color:var(--teal)}
+.cal i.now{background:var(--yellow);border-color:var(--ink);height:11px}
+.btn{background:var(--paper);border:2px solid var(--ink);padding:5px 14px;border-radius:4px;box-shadow:3px 3px 0 var(--ink);font-weight:700;transition:transform .1s,box-shadow .1s,background .1s}
+.btn:hover{background:var(--yellow);color:var(--on-yellow)}
+.btn:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--ink)}
+.btn.primary{background:var(--teal);color:var(--on-accent);border-color:var(--ink)}
+.btn.primary:hover{background:var(--yellow);color:var(--on-yellow)}
+
+/* stage */
+.stage{position:relative;width:100%;aspect-ratio:16/10;border:2.5px solid var(--ink);border-radius:4px;overflow:hidden;background:#DCE2E7;user-select:none;-webkit-user-select:none;box-shadow:6px 6px 0 var(--teal)}
+.stage::after{content:"";position:absolute;inset:0;pointer-events:none;background-image:radial-gradient(rgba(28,38,48,.13) .8px,transparent 1.1px);background-size:5px 5px;mix-blend-mode:multiply;z-index:3}
+.bg,.bg svg{position:absolute;inset:0;width:100%;height:100%;display:block}
+.portrait{position:absolute;right:5%;bottom:0;height:84%;aspect-ratio:200/260;z-index:2;transition:opacity .25s,transform .25s;pointer-events:none}
+.portrait svg{width:100%;height:100%;display:block}
+.portrait.off{opacity:0;transform:translateY(12px)}
+.textbox{position:absolute;left:3%;right:3%;bottom:4%;min-height:31%;background:var(--paper);border:2px solid var(--ink);border-radius:4px;padding:20px 22px 14px;box-shadow:5px 5px 0 var(--ink);z-index:4;cursor:pointer}
+.textbox p{margin:0;font-size:17px;line-height:1.85;min-height:3.6em;max-width:62ch}
+.nametag{position:absolute;top:-17px;left:14px;background:var(--teal);color:var(--on-accent);font-family:var(--f-display);font-size:15px;padding:3px 14px;border:2px solid var(--ink);border-radius:3px;letter-spacing:.04em}
+.nametag.me{background:var(--yellow);color:var(--on-yellow)}
+.more{position:absolute;right:16px;bottom:8px;font-size:12px;color:var(--teal);animation:bob 1s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(3px)}}
+.choices{position:absolute;inset:0;z-index:5;background:var(--veil);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:16px}
+.choice{width:min(540px,100%);text-align:left;background:var(--paper);border:2px solid var(--ink);border-radius:4px;padding:12px 18px;font-size:16px;font-weight:700;box-shadow:4px 4px 0 var(--ink);transition:transform .1s,background .1s}
+.choice:hover,.choice:focus-visible{background:var(--yellow);color:var(--on-yellow);transform:translate(-2px,-2px)}
+.choice::before{content:"▸ ";color:var(--teal)}
+.choice:hover::before{color:var(--on-yellow)}
+
+/* overlays on stage (title / create) */
+.ov{position:absolute;inset:0;z-index:6;display:flex}
+.title-ov{justify-content:space-between;align-items:stretch;padding:5% 6%}
+.title-left{display:flex;flex-direction:column;justify-content:flex-end;gap:12px;max-width:52%}
+.title-left p{margin:0;background:var(--paper);border:2px solid var(--ink);padding:10px 14px;border-radius:4px;font-size:14px;line-height:1.7}
+.title-btns{display:flex;flex-wrap:wrap;gap:10px}
+.vtitle{writing-mode:vertical-rl;font-family:var(--f-display);font-size:clamp(40px,8vw,74px);line-height:1.15;color:#1C2630;text-shadow:4px 3px 0 #F3C33C;letter-spacing:.06em;margin:0}
+.vtitle small{display:block;font-size:.3em;letter-spacing:.2em;font-family:var(--f-body);font-weight:700;text-shadow:none;margin-left:.6em;color:#1C2630}
+.create-ov{align-items:center;justify-content:center;background:var(--veil);padding:16px}
+.panel{background:var(--paper);border:2.5px solid var(--ink);border-radius:6px;box-shadow:6px 6px 0 var(--teal);padding:20px 22px;width:min(440px,100%);display:flex;flex-direction:column;gap:14px}
+.panel h2{margin:0;font-family:var(--f-display);font-weight:400;font-size:20px}
+.seg{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.seg button{border:2px solid var(--ink);background:var(--paper);border-radius:4px;padding:10px;font-weight:700}
+.seg button[aria-pressed="true"]{background:var(--teal);color:var(--on-accent)}
+.field{display:flex;flex-direction:column;gap:4px}
+.field label{font-size:13px;color:var(--ink-soft);font-weight:700;letter-spacing:.05em}
+.field input{font:inherit;font-size:18px;padding:8px 12px;border:2px solid var(--ink);border-radius:4px;background:var(--paper-2);color:var(--ink)}
+
+/* map pins */
+.pins{position:absolute;inset:0;z-index:2}
+.pin{position:absolute;transform:translate(-50%,-100%);display:flex;flex-direction:column;align-items:center;gap:2px;background:none;border:0;padding:0}
+.pin .lab{background:#F7F7F2;color:#1C2630;border:2px solid #1C2630;border-radius:3px;font-size:12px;font-weight:700;padding:0 6px;white-space:nowrap;box-shadow:2px 2px 0 #1C2630}
+.pin .dot{width:16px;height:16px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);background:#F3C33C;border:2.5px solid #1C2630}
+.pin.new .dot{background:#E8607A}
+.pin.home .dot{background:#F7F7F2}
+.pin:hover .lab,.pin:focus-visible .lab{background:#F3C33C}
+
+/* below panel */
+.below{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(0,1fr);gap:22px;align-items:start}
+.below h2{font-family:var(--f-display);font-weight:400;font-size:17px;margin:0 0 10px;text-wrap:balance}
+.places{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.card{text-align:left;background:var(--paper);border:2px solid var(--ink);border-radius:4px;padding:10px 12px;display:flex;flex-direction:column;gap:3px;min-width:0;transition:transform .1s,box-shadow .1s;box-shadow:3px 3px 0 var(--ink)}
+.card:hover,.card:focus-visible{transform:translate(-2px,-2px);box-shadow:5px 5px 0 var(--teal)}
+.card .pl{font-family:var(--f-display);font-size:15px;display:flex;justify-content:space-between;gap:8px;align-items:baseline}
+.card .prog{font-family:var(--f-dot);font-size:13px;color:var(--teal);letter-spacing:.1em;white-space:nowrap}
+.card .who{font-size:13.5px;line-height:1.5}
+.card .rumor{color:var(--ink-soft)}
+.card .lock{font-size:12px;color:var(--signal);font-weight:700}
+.card .badge{font-size:11px;background:var(--signal);color:var(--on-accent);padding:0 6px;border-radius:2px;margin-left:4px;font-family:var(--f-body)}
+.card.home{border-style:dashed}
+.skills{display:flex;flex-direction:column;gap:9px}
+.sk{display:grid;grid-template-columns:28px 4.3em 1fr 1.6em;gap:8px;align-items:center}
+.stamp{width:28px;height:28px;display:grid;place-items:center;border:2px solid var(--teal);color:var(--teal);font-family:var(--f-display);font-size:15px;border-radius:3px}
+.sk .nm{font-weight:700;font-size:14px}
+.segbar{display:grid;grid-template-columns:repeat(10,1fr);gap:2px}
+.segbar i{height:12px;background:var(--paper-2);border:1px solid color-mix(in srgb,var(--ink) 25%,transparent)}
+.segbar i.on{background:var(--teal);border-color:var(--teal)}
+.segbar i.up{background:var(--yellow);border-color:var(--ink)}
+.sk .v{font-family:var(--f-dot);font-size:15px;text-align:right;font-variant-numeric:tabular-nums}
+.ties{margin:12px 0 0;font-size:13.5px;border-top:2px dotted var(--ink-soft);padding-top:10px}
+.ties b{font-family:var(--f-dot);font-size:17px;color:var(--teal)}
+.hint{font-size:12.5px;color:var(--ink-soft);margin:6px 0 0}
+
+/* toasts */
+.toasts{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:50;display:flex;flex-direction:column;align-items:center;gap:6px;pointer-events:none;width:max-content;max-width:calc(100% - 32px)}
+.toast{background:var(--ink);color:var(--paper);border-radius:3px;padding:5px 14px;font-weight:700;font-size:14px;box-shadow:3px 3px 0 var(--yellow);animation:tin .25s ease-out}
+.toast b{color:var(--yellow);font-family:var(--f-dot)}
+@keyframes tin{from{opacity:0;transform:translateY(8px)}}
+
+/* modal (帖) */
+.modal{position:fixed;inset:0;z-index:40;background:var(--veil);display:flex;align-items:flex-start;justify-content:center;overflow-y:auto;padding-block:calc(24px + env(safe-area-inset-top,0px)) 24px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.sheet{background:var(--paper);border:2.5px solid var(--ink);border-radius:6px;box-shadow:7px 7px 0 var(--teal);width:min(760px,100%);padding:22px 24px;display:flex;flex-direction:column;gap:16px}
+.sheet-head{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.sheet h2{margin:0;font-family:var(--f-display);font-weight:400;font-size:22px}
+.sheet h3{margin:0 0 8px;font-size:14px;letter-spacing:.12em;color:var(--teal)}
+.people{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px}
+.person{border:2px solid var(--ink);border-radius:4px;padding:10px 12px;display:flex;flex-direction:column;gap:6px;min-width:0}
+.person.unmet{border-style:dashed;color:var(--ink-soft)}
+.person .pn{font-family:var(--f-display);font-size:15px}
+.person .pj{font-size:12px;color:var(--ink-soft)}
+.person q{display:block;font-size:13.5px;line-height:1.6;quotes:"「" "」";border-left:3px solid var(--yellow);padding-left:8px}
+.skilldesc{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px 16px;font-size:13.5px}
+.skilldesc div{display:flex;gap:8px;align-items:flex-start}
+.foot{font-size:12px;color:var(--ink-soft);margin:0;max-width:70ch}
+
+/* zine ending */
+.zine{border:2.5px solid var(--ink);border-radius:4px;background:var(--paper);box-shadow:7px 7px 0 var(--teal);padding:28px clamp(16px,4vw,40px);display:flex;flex-direction:column;gap:22px}
+.mast{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:12px;border-bottom:3px solid var(--ink);padding-bottom:12px}
+.mast h1{margin:0;font-family:var(--f-display);font-weight:400;font-size:clamp(28px,6vw,48px);line-height:1.15;text-shadow:3px 2px 0 var(--yellow);text-wrap:balance}
+.mast .issue{font-family:var(--f-dot);font-size:14px;text-align:right}
+.zgrid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.4fr);gap:26px;align-items:start}
+.titlebadge{display:inline-block;background:var(--teal);color:var(--on-accent);font-family:var(--f-display);font-size:20px;padding:4px 14px;border:2px solid var(--ink);border-radius:3px;box-shadow:3px 3px 0 var(--ink)}
+.radar{width:100%;max-width:320px;display:block;margin:6px auto 0}
+.radar text{font-family:var(--f-body);font-weight:700;font-size:13px;fill:var(--ink)}
+.lede{font-size:16px;line-height:1.9;margin:0;max-width:60ch}
+.zpeople{display:flex;flex-direction:column;gap:14px}
+.zp{display:grid;grid-template-columns:58px minmax(0,1fr);gap:12px;align-items:start}
+.zp .face{width:58px;height:75px}
+.zp .face svg{width:100%;height:100%;display:block}
+.zp .nm{font-family:var(--f-display);font-size:15px}
+.zp .nm span{font-family:var(--f-body);font-size:12px;color:var(--ink-soft);margin-left:6px}
+.zp q{display:block;font-size:15px;line-height:1.65;quotes:"「" "」";margin-top:2px}
+.zbtns{display:flex;flex-wrap:wrap;gap:10px}
+
+@media (max-width:720px){
+  .below{grid-template-columns:1fr}
+  .zgrid{grid-template-columns:1fr}
+}
+@media (max-width:600px){
+  .stage{aspect-ratio:3/4}
+  .stage.is-map{aspect-ratio:16/10}
+  .portrait{height:56%;right:2%}
+  .textbox{min-height:40%;padding:18px 16px 14px}
+  .textbox p{font-size:16px}
+  .places{grid-template-columns:1fr}
+  .title-ov{flex-direction:column-reverse;align-items:stretch;justify-content:space-between}
+  .title-left{max-width:100%}
+  .vtitle{align-self:flex-end}
+  .pin .lab{font-size:10px;padding:0 4px}
+  .pin .dot{width:12px;height:12px}
+}
+.ff{animation:tw 2.4s ease-in-out infinite}
+@keyframes tw{50%{opacity:.15}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+
+<div class="app">
+  <header class="bar">
+    <div class="brand">ひとめぐり帖</div>
+    <div class="when" id="when" hidden></div>
+    <div class="cal" id="cal" aria-hidden="true"></div>
+    <button class="btn" id="bookBtn" hidden>帖をひらく</button>
+  </header>
+  <div class="stage" id="stage">
+    <div class="bg" id="bg"></div>
+    <div class="pins" id="pins" hidden></div>
+    <div class="portrait off" id="portrait"></div>
+    <div class="textbox" id="textbox" hidden role="button" tabindex="0" aria-label="つぎへ">
+      <div class="nametag" id="nametag" hidden></div>
+      <p id="text" aria-live="polite"></p>
+      <span class="more" id="more" aria-hidden="true">▼</span>
+    </div>
+    <div class="choices" id="choices" hidden></div>
+    <div class="ov" id="ov" hidden></div>
+  </div>
+  <section class="below" id="below" hidden>
+    <div id="placesWrap">
+      <h2 id="prompt"></h2>
+      <div class="places" id="places"></div>
+    </div>
+    <aside>
+      <h2>5つの力</h2>
+      <div class="skills" id="skills"></div>
+      <p class="ties" id="tiesLine"></p>
+    </aside>
+  </section>
+  <section class="zine" id="zine" hidden></section>
+</div>
+
+<div class="modal" id="modal" hidden>
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="bookTitle">
+    <div class="sheet-head"><h2 id="bookTitle">帖</h2><button class="btn" id="closeBook">とじる</button></div>
+    <div id="bookBody"></div>
+  </div>
+</div>
+<div class="toasts" id="toasts" aria-live="polite"></div>
+
+<script>
+/* ---------- palette for illustrations (printed look, same in both themes) ---------- */
+const P={sky:{spring:'#E3EDD5',summer:'#CDE6E4',autumn:'#F0DCCE',winter:'#DCE2E7'},sea:'#118892',deep:'#0B5D67',hill:'#88BAAB',mid:'#4E8274',forest:'#2E5D54',sand:'#E8D8A8',land:'#DCE6D1',wall:'#E6E9E1',wood:'#C79A5F',line:'#1C2630',paper:'#F7F7F2',yellow:'#F3C33C',pink:'#E8607A',navy:'#27395A',skin:'#F6E4D3',night:'#15222A',glow:'#F6E88E',scrub:'#9ED3CF',ground:'#C9C3AE'};
+
+const SK={cur:{k:'好',name:'好奇心',d:'「なんで?」と思って、知ろうとする力'},per:{k:'続',name:'持続性',d:'うまくいかなくても、続ける力'},fle:{k:'柔',name:'柔軟性',d:'状況に合わせて、考えや行動を変える力'},opt:{k:'楽',name:'楽観性',d:'「なんとかなる」と前を向く力'},risk:{k:'冒',name:'冒険心',d:'結果がわからなくても、一歩ふみ出す力'}};
+const SKO=['cur','per','fle','opt','risk'];
+
+/* ---------- script helpers ---------- */
+const n=t=>({n:t}), me=t=>({me:t}), ch=(...o)=>({c:o}), o=(l,fx,...r)=>({l,fx,r}), note=(who,t)=>({note:t,who}), bg=k=>({bg:k});
+const sp=id=>t=>({s:id,t}); const U=sp('u'),I=sp('i'),M=sp('m'),K=sp('k'),Y=sp('y'),C=sp('c');
+
+/* ---------- characters ---------- */
+const CH={
+u:{name:'浜崎 潮',short:'潮さん',job:'漁師',place:'宍喰漁港',pl:'漁港',rumor:'朝早く、漁師さんが網を手入れしているらしい',bg:'port',key:'fle',pin:[28.5,81],
+ look:{hair:'short',body:P.deep,acc:'hachimaki'},
+ eps:[
+ {req:null,lines:[n('朝5時半の宍喰漁港。空はまだ、うすい紫色だ。'),n('日焼けしたおじさんが、だまって網をたぐっている。'),U('ん? こんな朝はように、子どもが何しよんな。'),me('漁師さんの仕事、見てみたくて。'),U('ほう、物好きやなあ。わしは浜崎潮。この港で40年、伊勢えびとっとる。'),U('海はな、毎日ちがう顔するんじょ。昨日とれた場所で、今日もとれるとはかぎらん。'),
+  ch(o('「どうやって、とれる場所を決めるの?」','cur',U('風と、水の色と、あとは勘やな。勘いうても、40年分の失敗でできとる勘じょ。')),
+     o('「網、ちょっとさわってもいい?」','risk',n('網はずっしり重くて、海のにおいがした。'),U('ははは、ええ手つきや。')),
+     o('だまって、作業を最後まで見る','per',n('1時間。潮さんの手は、一度も止まらなかった。'),U('……最後まで見とったんか。根性あるのう。'))),
+  U('また来たらええ。海は逃げんけん。'),note('u','海は毎日ちがう顔をする')]},
+ {req:null,lines:[n('今日の港は静かだった。潮さんが、空っぽのかごを見つめている。'),U('今朝は、さっぱりや。水が冷たすぎた。'),me('……ざんねんだね。'),U('こういう日もある。いや、こういう日のほうが多いくらいじょ。'),
+  ch(o('「明日はきっと、とれるよ!」','opt',U('……ははっ。そうやな。漁師はな、明日を信じられんとやっていけん。')),
+     o('「とれないとき、どうするの?」','fle',U('網を入れる場所を変える。時間を変える。それでもあかんかったら、網の手入れや。'),U('とれん日にやることも、ちゃんとあるんじょ。')),
+     o('網のほつれを直すのを手伝う','per',n('細いほつれを、ひとつずつ結んでいく。指が痛くなったころ、やっと一枚が終わった。'),U('助かったわ。今日はこれが、一番の収穫やな。'))),
+  note('u','とれん日にやることも、ちゃんとある')]},
+ {req:{stat:'fle',v:4},lines:[n('よく晴れた朝。家族の許可をもらって、潮さんの船に乗せてもらえることになった。'),n('ライフジャケットのひもを、潮さんがぎゅっとしめてくれた。'),U('しっかりつかまっとれよ。'),n('港を出ると、町がどんどん小さくなる。山と、川と、学校の屋根。'),me('町って、こんなに小さかったんだ。'),U('わしもな、若いころは大阪で働いとったんじょ。この町が狭うて、かなわんかった。'),U('ほなけど、外から見て、はじめてわかった。ここの海は、ほかのどこにもない。'),
+  ch(o('「{I}も、いつか町を出るのかな」','risk',U('出たらええ。出て、見て、それでも帰りたなったら、帰ってきたらええ。海はここで待っとる。')),
+     o('「どうして、戻ってきたの?」','cur',U('親父が倒れてな。最初は、しかたなくや。'),U('ほなけど、海に出たら……体が覚えとった。人生、予定どおりにはいかん。それがおもろいんじょ。')),
+     o('「町の外も、町の中も、両方見てみたい」','fle',U('……ええこと言うのう。それが一番かしこいかもしれん。'))),
+  n('網を上げると、赤い伊勢えびが、朝日にぴかぴか光った。'),note('u','人生、予定どおりにはいかん。それがおもろい')]}
+ ],
+ wait:[U('おう、来たか。悪いのう、今日は海がしけとって、船の準備で手がはなせんのじょ。')],
+ after:[U('おう、また来たんか。今日はええ凪じょ。'),n('潮さんと、しばらく海をながめた。')]},
+
+i:{name:'杉野 いつき',short:'いつきさん',job:'林業(海部杉)',place:'海部の山',pl:'山',rumor:'チェーンソーの音が聞こえる山があるらしい',bg:'mount',key:'per',pin:[24,27],
+ look:{hair:'short',body:P.forest,acc:'helmet'},
+ eps:[
+ {req:null,lines:[n('山道をのぼると、チェーンソーの音がひびいてきた。'),n('ヘルメットをかぶった女の人が、ふり返って手をふった。'),I('こらこら、ここから先は危ないよ! 見学なら、そこの切り株まで。'),I('私は杉野いつき。この山で、木を育てる仕事をしてるの。'),me('木を「育てる」? 切るんじゃなくて?'),I('切るのも、育てるため。こみあった木を間引くと、残った木が太くなる。「間伐」っていうんだ。'),I('この杉を植えたのは、私のおじいちゃん。50年前だよ。'),
+  ch(o('「50年!? 待ちきれなくならない?」','opt',I('なるなる(笑)。でもね、木は急かしても育たない。こっちが待つしかないの。')),
+     o('「どうして、この仕事を選んだの?」','cur',I('子どものころ、この山で遊んでたから。山が荒れていくのが、いやだったんだよね。')),
+     o('木の幹に、そっと手を当ててみる','fle',n('ざらざらした皮の奥が、ひんやりしている。'),I('生きてるでしょ。木も、こっちを感じてるのかもね。'))),
+  note('i','木は、急かしても育たない')]},
+ {req:null,lines:[n('雨の日。いつきさんは山ではなく、製材所にいた。'),n('木のいいにおいが、部屋いっぱいに広がっている。'),I('雨の日は山に入れないからね。今日は丸太の仕分け。'),I('ほら、切り口を見て。この輪っか一本が、一年分。'),me('……{I}が生まれた年って、どこだろう。'),I('数えてごらん。外側から、ひとつずつ。'),
+  ch(o('最後まで、ひとつずつ数える','per',n('12、11、10……。目がちかちかしてきたけど、指は止めなかった。'),I('見つけた? それが{N}の年輪。')),
+     o('「幅がバラバラなのは、なんで?」','cur',I('雨が多かった年は太く、日照りの年は細くなる。'),I('木はね、町の天気を全部覚えてるんだよ。')),
+     o('「数えるの、手伝ってほしい」','fle',I('いいよ。ひとりでできないときに、たのめるのも力だからね。'))),
+  note('i','木は、町の天気を全部覚えてる')]},
+ {req:{stat:'per',v:4},lines:[n('よく晴れた日。いつきさんと、山に苗木を植えに来た。'),I('穴を掘って、苗を立てて、土をかぶせて、ぎゅっと踏む。これを何百本もやるよ。'),n('30本をこえたあたりで、腕がぱんぱんになった。'),I('この木が切れるくらい大きくなるのは、50年後。{N}は、そのとき何歳?'),me('……62歳。'),I('そう。この木は、私たちのためじゃない。まだ会ったことのない、誰かのための木なんだ。'),
+  ch(o('「62歳の{I}が、この木に会いに来るよ」','opt',I('いいね。そのとき何の仕事をしてるか、教えてね。')),
+     o('最後の一本まで、植え続ける','per',n('日がかたむくころ、斜面に小さな苗が、ずらりと並んでいた。'),I('よくがんばった。今日の{N}、ちょっと山の人の顔してるよ。')),
+     o('「50年後の町って、どうなってると思う?」','cur',I('わからない。だから植えるの。わからない未来に、何かを残せるように。'))),
+  note('i','まだ会ったことのない、誰かのための木')]}
+ ],
+ wait:[I('ごめん、今日は急な斜面での作業なんだ。危ないから、また今度ね!')],
+ after:[I('お、{N}! この前植えた苗、ちゃんと根づいてるよ。'),n('小さな苗が、風にゆれていた。')]},
+
+m:{name:'波多野 ミナ',short:'ミナさん',job:'サーフショップ店主',place:'海部川河口の浜',pl:'浜',rumor:'大阪から引っ越してきたサーファーがいるらしい',bg:'surf',key:'risk',pin:[63,51],
+ look:{hair:'long',body:P.line,acc:'wetsuit'},
+ eps:[
+ {req:null,lines:[n('海部川の河口。沖で、何人ものサーファーが波を待っている。'),n('浜辺のベンチで、日焼けしたお姉さんが、波をじっと見ていた。'),M('今日の波、ええ形やろ? ここ、全国からサーファーが来るんよ。'),M('うち、波多野ミナ。あそこのサーフショップやってる。大阪から引っ越してきて、5年目。'),me('大阪から? なんでこの町に?'),M('波に呼ばれた! ……っていうのは、半分ホンマ。'),
+  ch(o('「残りの半分は?」','cur',M('前の仕事で、毎日つかれてたんよ。旅行でここに来て、朝の海見て、泣いてしもてん。'),M('ほんで、決めた。')),
+     o('「サーフィンって、こわくない?」','risk',M('こわいで! でもな、こわいのと楽しいのは、けっこう近いところにあるんよ。')),
+     o('「町の外から来た人って、めずらしい」','fle',M('そうやろ。でもな、外から来たからこそ見える町のええとこ、いっぱいあるで。'))),
+  note('m','こわいのと楽しいのは、近いところにある')]},
+ {req:null,lines:[n('サーフショップの奥で、ミナさんがボードを修理していた。'),M('岩にぶつけて、穴あいてもうてん。直したら、また乗れる。'),me('ミナさん、前はどんな仕事してたの?'),M('会社員。パソコンで一日中、数字とにらめっこ。安定してたけど……ずっと息止めてるみたいやった。'),M('やめるとき、まわりにはめっちゃ止められたわ。'),
+  ch(o('「やめるの、こわかった?」','risk',M('めっちゃこわかった。でも「やらんかった後悔」のほうが、もっとこわかってん。')),
+     o('「今は、息できてる?」','opt',M('……うん。深呼吸しまくりや(笑)。お金は前より少ないけどな。それも込みで、えらんだ。')),
+     o('「修理、やってみてもいい?」','per',n('ヤスリをかけて、樹脂をぬって、また削る。思ったより地道な作業だ。'),M('サーフィンってな、海の上より、こういう時間のほうが長いんよ。'))),
+  note('m','やらんかった後悔のほうが、もっとこわい')]},
+ {req:{stat:'risk',v:4},lines:[n('よく晴れた日。ミナさんが、ボディボード体験に誘ってくれた。'),n('ライフジャケットを着て、足のつく浅瀬で。ミナさんが、すぐとなりにいる。'),M('波が来たら、ボードを前に押し出して、いっしょに進む。それだけ!'),n('1回目、波にのまれた。2回目、ボードだけ行ってしまった。'),M('ええよええよ! 失敗してる人は、ちゃんと挑戦してる人や!'),
+  ch(o('もう一回、挑戦する','risk',n('3回目。体がふわっと持ち上がって、浜までまっすぐ運ばれた。'),me('……乗れた! 今、乗れたよ!')),
+     o('波の来るタイミングを、じっと観察する','cur',n('波には、リズムがある。大きいのが3つ来て、少し休む。'),n('4回目。ねらいすました波に、ボードがすべり出した。')),
+     o('「失敗しても、楽しい!」と笑う','opt',M('その顔! それがサーファーの顔や!'))),
+  M('{N}、今日の気持ち、覚えといてな。これから先、こわいことに出会ったとき、きっと役に立つから。'),note('m','失敗してる人は、ちゃんと挑戦してる人')]}
+ ],
+ wait:[M('今日は波が大きすぎるわ。見学だけの日やな。')],
+ after:[M('{N}! 今日はええ波やで。見ていき!'),n('ミナさんの乗る波を、浜から見送った。')]},
+
+k:{name:'道野 かける',short:'かけるさん',job:'DMV運転士',place:'阿波海南駅',pl:'駅',rumor:'道路も線路も走る乗り物があるらしい',bg:'station',key:'cur',pin:[79,31],
+ look:{hair:'short',body:P.navy,acc:'cap'},
+ eps:[
+ {req:null,lines:[n('阿波海南駅。バスみたいな乗り物が、線路の手前で止まった。'),n('「ピーッ」と音がして、車体の下から鉄の車輪がおりてくる。'),K('はい、モードチェンジ完了! ここからは線路を走りますよー。'),n('制服のお兄さんが、運転席から顔を出した。'),K('お、見学? ようこそ。DMV運転士の、道野かけるです。'),K('これ、道路も線路も走れる乗り物なんだ。こういうふうにお客さんを乗せて走るのは、世界でここが初めてなんだよ。'),
+  ch(o('「どうやって、タイヤと車輪が入れかわるの?」','cur',K('前のタイヤを持ち上げて、鉄の車輪をおろす。後ろのタイヤで、線路の上を押して進むんだ。'),K('おもしろいでしょ!')),
+     o('「運転、むずかしい?」','fle',K('バスの免許と、鉄道の免許、両方いるんだ。道路のルールと線路のルール、頭を切りかえるのが大変。')),
+     o('「乗ってみたい!」','risk',K('ぜひ! 甲浦のほうまで行くと、海がすごくきれいだよ。'))),
+  note('k','道路も線路も走れる')]},
+ {req:null,lines:[n('休憩中のかけるさんが、ベンチでおにぎりを食べていた。'),me('かけるさんは、ずっと運転士になりたかったの?'),K('うん。小さいころは電車の図鑑ばっかり。時刻表を読むのが趣味っていう、ちょっと変な子(笑)。'),K('でもね、最初の試験、落ちたんだ。'),me('えっ。'),K('しかも、2回。'),
+  ch(o('「なんで、あきらめなかったの?」','per',K('好きだったから、かな。落ちたことより、乗れなくなるほうが、いやだった。')),
+     o('「落ちたとき、どうやって元気を出したの?」','opt',K('友だちと海に行って、ぼーっとした(笑)。それで「まあ、次があるか」って思えた。')),
+     o('「時刻表って、何がおもしろいの?」','cur',K('数字の向こうに、人の動きが見えるんだよ。朝のこの便は高校生、昼のこの便は病院帰りのおばあちゃん……ってね。'))),
+  note('k','試験に2回落ちた。それでも、今ここにいる')]},
+ {req:{stat:'cur',v:4},lines:[n('車庫で休んでいるDMV。特別に、止まった状態で運転席を見せてもらえた。'),n('ボタンやレバーが、ぎっしり並んでいる。'),K('ここに座るとね、町に来る人の顔が、最初に見えるんだ。旅行の人、帰省の人、病院に行く人。'),K('僕の仕事は、運転だけじゃなくて、この町の「最初の顔」になることなんだと思う。'),
+  ch(o('「このボタンは何?」と、ひとつずつ聞く','cur',K('これはモードチェンジ、これは車内放送……全部聞くの? いいよ、全部いこう!')),
+     o('「{I}も、町の顔になれるかな」','opt',K('もう、なってるよ。今日、僕に会いに来てくれたでしょ。')),
+     o('「町に人を呼ぶには、何がいると思う?」','fle',K('乗り物だけじゃ足りない。来たくなる理由がいる。'),K('それを作るのは、たぶん{N}たちの世代だよ。'))),
+  note('k','この町の「最初の顔」になる仕事')]}
+ ],
+ wait:[K('ごめんね、今日はダイヤの調整でバタバタなんだ。また来て!')],
+ after:[K('{N}、いらっしゃい! 今日も定刻どおりだよ。'),n('DMVが、海ぞいの線路を走っていった。')]},
+
+y:{name:'坂東 ゆり',short:'ゆりさん',job:'看護師',place:'町の診療所',pl:'診療所',rumor:'いつも笑い声が聞こえる診療所があるらしい',bg:'clinic',key:'opt',pin:[72.5,18],
+ look:{hair:'bun',body:P.scrub,acc:'scrub'},
+ eps:[
+ {req:null,lines:[n('おばあちゃんの付きそいで、町の診療所に来た。'),n('待合室で、看護師さんがおじいさんと大笑いしている。'),Y('もう、田中さん、その話は先週も聞いたわよ!(笑)'),n('おばあちゃんが「ゆりちゃん」と呼ぶと、その人はぱっと振り向いた。'),Y('あら、お孫さん? 看護師の坂東ゆりです。おばあちゃんには、いつもお世話になってるの。'),me('さっき、すごく楽しそうでしたね。'),Y('看護の仕事はね、半分は「話を聞くこと」なの。体の調子は、おしゃべりの中に出てくるのよ。'),
+  ch(o('「話を聞くだけで、わかるの?」','cur',Y('声の元気さ、顔色、同じ話を何回するか。ちゃんと聞いてると、いろんなことに気づけるのよ。')),
+     o('「この町の病院って、ここだけ?」','fle',Y('大きな病院までは、車でずいぶんかかるの。だから、ここが町の「最初の窓口」。なんでも屋さんみたいなものね。')),
+     o('待合室のお年寄りに、話しかけてみる','risk',n('となりのおばあさんが、昔の海陽町の話を、うれしそうに聞かせてくれた。'),Y('今、あの人すごくいい顔してた。{N}も、看護の才能あるかもよ。'))),
+  note('y','看護の仕事は、半分は話を聞くこと')]},
+ {req:null,lines:[n('町の健康まつり。診療所のテントで、ゆりさんが血圧をはかっていた。'),Y('{N}、ちょうどいいところに! 受付、手伝ってくれない?'),n('名前を書いてもらって、番号札をわたす。思ったより、人がたくさん来る。'),n('ひとりのおじいさんが、ぶすっとした顔で座っている。「どうせ、どこも悪うない」'),
+  ch(o('「今日は、どうして来たんですか?」と聞いてみる','cur',n('「……ばあさんに、行けと言われてな」'),n('話しているうちに、おじいさんの顔が、少しずつゆるんでいった。')),
+     o('にっこり笑って、番号札をわたす','opt',n('おじいさんは「ふん」と言いながらも、少しだけ口元をゆるめた。')),
+     o('ゆりさんを呼びに行く','fle',Y('ありがとう。こういうときは、ひとりでがんばらないのが正解よ。'))),
+  Y('今日、{N}がいてくれて助かった。人に頼られるって、悪くないでしょ?'),note('y','人に頼られるって、悪くない')]},
+ {req:{stat:'opt',v:4},lines:[n('夕方の診療所。ゆりさんが、めずらしく疲れた顔で座っていた。'),Y('あら、{N}。……今日はちょっと、しんどい日だったの。'),Y('助けたくても、全部はうまくいかない。この仕事、そういう日もあるのよ。'),me('……ゆりさんでも、そうなんだ。'),Y('そうよ。30年やってても、毎回くやしい。'),
+  ch(o('「でも、ゆりさんに会えてよかったって人、いっぱいいるよ」','opt',Y('……ありがとう。{N}に言われると、なんだか効くわね。')),
+     o('だまって、となりに座る','fle',n('何も言わずに、しばらく夕焼けを見ていた。'),Y('……こうしてるだけで、ちょっと楽になるもんね。')),
+     o('「どうして、続けられるの?」','cur',Y('しんどい日の次の日も、「ゆりちゃん、来たよ」って誰かが来るから。'))),
+  Y('明日は、ちょっとましになる。そう思える力も、仕事のうちなのよ。'),note('y','明日はちょっとましになる。そう思える力も、仕事のうち')]}
+ ],
+ wait:[Y('あら、来てくれたの。今日は待合室がいっぱいでね……また来てね。')],
+ after:[Y('{N}、いらっしゃい。顔色いいわね!'),n('待合室は、今日も笑い声でいっぱいだった。')]},
+
+c:{name:'本田 ことり',short:'ことりさん',job:'雑誌編集者(地域おこし協力隊)',place:'みんなの居場所',pl:'居場所',rumor:'町の雑誌を作っている人がいるらしい',bg:'place',key:'cur',pin:[57,34],
+ look:{hair:'bob',body:P.pink,acc:'glasses'},
+ eps:[
+ {req:null,lines:[n('町の「みんなの居場所」。放課後、子どもたちがふらっと集まる場所だ。'),n('テーブルいっぱいに写真と紙を広げて、お姉さんがうなっていた。'),C('うーん……。あ、ごめんね、散らかしてて。'),C('本田ことり。地域おこし協力隊で、東京から来たの。この町の、小さな雑誌を作ってるんだ。'),C('でもね、困ってて。この町の人のこと、もっと知りたいのに、私はまだ「よそ者」で。'),
+  ch(o('「{I}が知ってる人、教えてあげる!」','risk',C('ほんと!? 心強い!')),
+     o('「雑誌って、どうやって作るの?」','cur',C('人に会って、話を聞いて、写真をとって、言葉を選ぶ。'),C('……つまり、ほとんど「会いに行くこと」なんだよ。')),
+     o('「よそ者だと、だめなの?」','fle',C('だめじゃない。外から来たから気づけることもある。でも、中の人の目も必要なの。'))),
+  C('ねえ{N}。この町で働く大人に会ったら、その人の言葉を「帖」にメモしておいてくれない? いつか、それで雑誌を作ろうよ。'),note('c','雑誌づくりは、ほとんど会いに行くこと'),n('——出会った人の言葉が「帖」にたまっていく。')]},
+ {req:{met:2},lines:[n('ことりさんが、インタビューの練習をしようと言った。'),C('いい質問のコツ、教えてあげる。「はい」「いいえ」で終わらない質問をすること。'),C('たとえば「仕事は楽しいですか?」より、「仕事で一番うれしかったのは、どんなとき?」のほうが、話が広がるでしょ。'),C('じゃあ{N}、私にインタビューしてみて!'),
+  ch(o('「どうして東京から、この町に来たんですか?」','cur',C('東京では、となりの部屋の人の名前も知らなかった。ここでは、スーパーで5回あいさつされる。'),C('……人と人の距離に、ひかれたのかな。')),
+     o('「この町で、一番びっくりしたことは?」','opt',C('知らないおばあちゃんが、玄関に野菜を置いていってくれること!(笑) 最初は事件かと思った。')),
+     o('「雑誌づくりで、失敗したことは?」','risk',C('最初の号、誤字が23個あった……。でも、町の人が赤ペンで直して返してくれたの。それがうれしくてね。'))),
+  C('いい質問だった! {N}、インタビュアーの才能あるよ。'),note('c','「はい・いいえ」で終わらない質問をしよう')]},
+ {req:{met:4},lines:[n('ことりさんの机に、「帖」を広げた。'),n('出会った人たちの言葉が、ページいっぱいに並んでいる。'),C('……すごい。これ、全部{N}が自分の足で集めたんだね。'),C('決めた。次の号は、{N}が編集長。「わたしが出会った、海陽町のはたらく人」特集!'),me('{I}が、編集長……?'),
+  ch(o('「やってみる!」','risk',C('そうこなくっちゃ!')),
+     o('「どの言葉を一番大きくのせるか、迷うな」','cur',C('迷うってことは、どれも大事ってこと。それが、いい雑誌のはじまりだよ。')),
+     o('「みんなに、読んでもらいたいな」','opt',C('届けよう。町の人にも、ほかの町の子にも。'))),
+  C('ねえ{N}、気づいてる? 1年前より、ずっとたくさんの大人を知ってるでしょ。'),C('将来の夢は、まだ決まってなくていい。でも、扉の数は、確実にふえたんだよ。'),{flag:'zine'},note('c','扉の数は、確実にふえた')]}
+ ],
+ wait:[C('あ、{N}! これから取材に行くところなんだ。町の人に会ったら、また話を聞かせてね!')],
+ after:[C('編集長! 次の号のネタ、さがしに行こうか。'),n('ことりさんと、町の地図に印をつけた。')]}
+};
+const IDS=['u','i','m','k','y','c'];
+
+/* ---------- events ---------- */
+const SEASONAL={4:'hotaru',9:'matsuri',21:'marathon'};
+const EV={
+ hotaru:[bg('river'),n('夜。家族と、母川(ははがわ)にホタルを見に来た。'),n('暗い川の上を、小さな光がいくつも、ゆっくり横切っていく。'),n('「この川には、大きなウナギもすんどるんじょ」と、父さんが言った。'),
+  ch(o('ホタルが光る理由を、帰って調べてみることにした','cur',n('知りたいことが、またひとつふえた。')),o('光が消えるまで、だまって見ている','per',n('最後のひとつが消えるまで、ずっと見ていた。')),o('「来年も来ようね」と言う','opt',n('父さんが、笑ってうなずいた。')))],
+ matsuri:[bg('festival'),n('夏祭りの夜。屋台の手伝いを、たのまれた。'),n('焼きそばの屋台で、知らない大人に「ほら、これ運んで!」と言われた。'),
+  ch(o('「はい!」と、すぐに引き受ける','risk',n('「ありがとうな。どこの子?」——知っている大人が、またひとりふえた。')),o('どう運べば早いか、考えてから動く','fle',n('お皿を並べる順番を変えたら、行列がぐんと早く進んだ。')))],
+ marathon:[bg('marathon'),n('海部川ぞいのコースを、たくさんのランナーが走っていく。'),n('{I}は給水所で、紙コップを配る係になった。'),
+  ch(o('一番うしろのランナーに、大きな声で声をかける','opt',n('「ありがとう!」と、手をふり返してくれた。')),o('最後のひとりが通るまで、持ち場を守る','per',n('最後のランナーが通りすぎたとき、なんだか{I}まで、ゴールした気分だった。')))]
+};
+const RAND={
+ bus:[bg('station'),n('帰りのバスで、となりのおばあさんが話しかけてきた。「あんた、どこの子?」'),
+  ch(o('自己紹介して、昔の町の話を聞く','cur',n('昔、この町には、もっとたくさんの店があったらしい。知らない町の顔だった。')),o('おばあさんの荷物を、持ってあげる','risk',n('「やさしい子やなあ」。降りる駅まで、ずっと話してくれた。')))],
+ typhoon:[bg('home'),n('台風が来た。今日の予定は、ぜんぶなしになった。'),
+  ch(o('家族といっしょに、雨戸を閉める','fle',n('予定は変わったけど、家族の役に立てた。')),o('「台風が過ぎたら、何しよう」と計画を立てる','opt',n('台風のあとの空は、きっと青い。'))),{when:[8,9,10]}],
+ peer:[bg('school'),n('クラスの友だちに、笑われた。「大人と話すとか、意味あるん?」'),n('クラスは5人。みんなと同じじゃないと、ちょっと居心地が悪い。'),
+  ch(o('「意味あるよ。おもしろいもん」と言い返す','risk',n('友だちは、ちょっとおどろいた顔をした。')),o('「じゃあ、今度いっしょに行こうよ」と誘う','fle',n('「……まあ、ちょっとだけなら」')),o('笑われても、続けると心に決める','per',n('{I}が見つけたものは、{I}のものだ。')))],
+ tourist:[bg('surf'),n('海外から来た旅行者に、道を聞かれた。英語は、ほとんどわからない。'),
+  ch(o('身ぶり手ぶりで、案内してみる','risk',n('なんとか伝わった! 「サンキュー!」と、握手してくれた。')),o('地面に地図を描いて、説明する','fle',n('絵なら、言葉がなくても伝わった。')))],
+ test:[bg('school'),n('算数のテストが、返ってきた。……思っていたより、ずっと悪い。'),
+  ch(o('「次は、きっとできる」と顔を上げる','opt',n('落ちこむのは、5分だけにした。')),o('まちがえた問題を、全部ときなおす','per',n('3回目で、やっと全部正解した。')))],
+ shell:[bg('surf'),n('浜辺で、見たことのない形の貝がらを見つけた。'),
+  ch(o('図書館で、名前を調べる','cur',n('図鑑の、うしろのほうのページにのっていた。この海の、ずっと南から流れてきたらしい。')),o('友だちに見せに行く','opt',n('「すごい!」とみんなが集まってきた。')))]
+};
+
+/* ---------- state ---------- */
+const SAVE='kaiyo-hitomeguri-v1';
+let S=null;
+function fresh(){return{name:'',g:'boy',I:'ぼく',suf:'くん',t:0,st:{cur:1,per:1,fle:1,opt:1,risk:1},ties:{},notes:[],seen:{},flags:{},phase:'title'}}
+function save(){try{localStorage.setItem(SAVE,JSON.stringify(S))}catch(e){}}
+function load(){try{const s=localStorage.getItem(SAVE);return s?JSON.parse(s):null}catch(e){return null}}
+function clearSave(){try{localStorage.removeItem(SAVE)}catch(e){}}
+
+const $=id=>document.getElementById(id);
+const stage=$('stage');
+function monthOf(t){return((3+Math.floor(t/2))%12)+1}
+function seasonOf(t){const m=monthOf(t);return m>=3&&m<=5?'spring':m>=6&&m<=8?'summer':m>=9&&m<=11?'autumn':'winter'}
+function whenText(t){return `6年生 ${monthOf(t)}月 ${t%2?'後半':'前半'}`}
+function metOthers(){return['u','i','m','k','y'].filter(id=>(S.ties[id]||0)>0).length}
+function fmt(t,isChar){return t.replace(/\{N\}/g,isChar?S.name+S.suf:S.name).replace(/\{I\}/g,S.I)}
+function esc(s){return s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
+
+/* ---------- illustrations ---------- */
+function svg(inner){return `<svg viewBox="0 0 800 500" preserveAspectRatio="xMidYMid slice" aria-hidden="true">${inner}</svg>`}
+function cedar(x,y,h,c){return `<path d="M${x} ${y-h}L${x-h*.26} ${y-h*.4}H${x-h*.14}L${x-h*.36} ${y}H${x+h*.36}L${x+h*.14} ${y-h*.4}H${x+h*.26}Z" fill="${c}"/>`}
+function cedars(y,n,h,c,x0,x1,seed){let s='';for(let i=0;i<n;i++){const x=x0+(x1-x0)*(i/(Math.max(1,n-1)))+((i*37+seed)%21)-10;const hh=h*(.78+((i*53+seed)%17)/38);s+=cedar(x,y,hh,c)}return s}
+function waves(y,c,op){let d=`M0 ${y}`;for(let i=0;i<10;i++)d+=` q40 -9 80 0`;return `<path d="${d}" stroke="${c}" stroke-width="3" fill="none" opacity="${op}"/>`}
+const L=P.line;
+const BG={
+ title:s=>`<rect width="800" height="500" fill="${P.sky[s]}"/><circle cx="560" cy="120" r="64" fill="${P.yellow}"/>
+  <path d="M0 250 L110 150 L210 220 L330 110 L470 210 L560 170 L800 260 V500 H0Z" fill="${P.hill}"/>${cedars(300,14,70,P.mid,0,800,3)}${cedars(345,11,95,P.forest,-20,560,9)}
+  <rect y="340" width="800" height="160" fill="${P.sea}"/>${waves(380,P.paper,.45)}${waves(430,P.paper,.3)}
+  <path d="M600 372 H690 L676 392 H612Z" fill="${P.paper}" stroke="${L}" stroke-width="2.5"/><line x1="640" y1="372" x2="640" y2="336" stroke="${L}" stroke-width="2.5"/>`,
+ port:s=>`<rect width="800" height="500" fill="${P.sky[s]}"/><circle cx="660" cy="105" r="46" fill="${P.yellow}"/>
+  <path d="M0 270 Q120 205 260 250 T520 232 T800 255 V300 H0Z" fill="${P.hill}"/>${cedars(284,16,34,P.mid,0,800,3)}
+  <rect y="280" width="800" height="220" fill="${P.sea}"/>${waves(318,P.paper,.45)}${waves(352,P.paper,.3)}
+  <rect x="-10" y="400" width="410" height="34" fill="${P.wall}" stroke="${L}" stroke-width="3"/><rect x="-10" y="434" width="410" height="80" fill="${P.deep}"/>
+  <rect x="70" y="384" width="16" height="18" rx="4" fill="${L}"/><rect x="250" y="384" width="16" height="18" rx="4" fill="${L}"/>
+  <path d="M440 360 H720 L690 414 H470 Z" fill="${P.paper}" stroke="${L}" stroke-width="3"/><rect x="452" y="374" width="254" height="10" fill="${P.pink}"/>
+  <rect x="580" y="304" width="80" height="56" fill="${P.paper}" stroke="${L}" stroke-width="3"/><rect x="593" y="317" width="24" height="18" fill="${P.sky.summer}" stroke="${L}" stroke-width="2"/>
+  <line x1="510" y1="360" x2="510" y2="262" stroke="${L}" stroke-width="3"/><path d="M510 264 L546 276 L510 288Z" fill="${P.yellow}" stroke="${L}" stroke-width="2"/>
+  <path d="M300 404 q20 -26 40 0" stroke="${L}" stroke-width="2.5" fill="none"/><path d="M560 360 C540 340 520 345 510 330" stroke="${L}" stroke-width="2" fill="none"/>`,
+ mount:s=>`<rect width="800" height="500" fill="${P.sky[s]}"/><circle cx="150" cy="92" r="44" fill="${P.yellow}"/>
+  <path d="M0 240 L120 150 L230 205 L360 118 L500 196 L620 128 L800 216 V500 H0Z" fill="${P.hill}"/>
+  ${cedars(300,16,92,P.mid,-10,810,5)}${cedars(410,11,170,P.forest,10,790,7)}
+  <path d="M0 430 Q400 396 800 440 V500 H0Z" fill="#7D6440"/>
+  <ellipse cx="610" cy="430" rx="46" ry="14" fill="${P.wood}" stroke="${L}" stroke-width="3"/><path d="M564 430 V452 H656 V430" fill="${P.wood}" stroke="${L}" stroke-width="3"/>
+  <ellipse cx="610" cy="430" rx="28" ry="8" fill="none" stroke="${L}" stroke-width="1.5"/><ellipse cx="610" cy="430" rx="12" ry="3.5" fill="none" stroke="${L}" stroke-width="1.5"/>
+  <g stroke="${L}" stroke-width="2.5"><circle cx="120" cy="452" r="22" fill="${P.wood}"/><circle cx="166" cy="452" r="22" fill="${P.wood}"/><circle cx="143" cy="416" r="22" fill="${P.wood}"/></g>
+  <g fill="none" stroke="${L}" stroke-width="1.3"><circle cx="120" cy="452" r="11"/><circle cx="166" cy="452" r="11"/><circle cx="143" cy="416" r="11"/></g>`,
+ surf:s=>`<rect width="800" height="500" fill="${P.sky[s]}"/><circle cx="610" cy="115" r="70" fill="${P.yellow}"/>
+  <rect y="232" width="800" height="268" fill="${P.sea}"/>${waves(262,P.paper,.4)}
+  <path d="M0 360 C90 340 150 280 240 278 C320 276 350 330 300 350 C400 330 470 360 560 345 C660 330 720 360 800 345 V500 H0Z" fill="${P.deep}"/>
+  <path d="M240 278 C320 276 350 330 300 350" stroke="${P.paper}" stroke-width="8" fill="none" stroke-linecap="round"/>
+  <g fill="${P.paper}"><circle cx="352" cy="318" r="4"/><circle cx="362" cy="304" r="3"/><circle cx="330" cy="290" r="3"/></g>
+  <g transform="translate(240 252)"><path d="M-22 18 L26 14" stroke="${P.yellow}" stroke-width="6" stroke-linecap="round"/><circle cx="0" cy="-6" r="6" fill="${L}"/><path d="M0 0 L2 14" stroke="${L}" stroke-width="5" stroke-linecap="round"/></g>
+  <path d="M0 432 Q300 398 520 424 T800 414 V500 H0Z" fill="${P.sand}"/>
+  <g transform="rotate(-72 690 420)"><ellipse cx="690" cy="420" rx="74" ry="17" fill="${P.yellow}" stroke="${L}" stroke-width="3"/><line x1="622" y1="420" x2="758" y2="420" stroke="${P.pink}" stroke-width="3"/></g>`,
+ station:s=>`<rect width="800" height="500" fill="${P.sky[s]}"/><circle cx="130" cy="96" r="40" fill="${P.yellow}"/>
+  <path d="M0 300 Q200 228 400 278 T800 258 V340 H0Z" fill="${P.hill}"/>${cedars(320,22,42,P.mid,0,800,5)}
+  <rect y="330" width="800" height="44" fill="${P.wall}" stroke="${L}" stroke-width="3"/><rect y="368" width="800" height="6" fill="${P.yellow}"/>
+  <rect y="374" width="800" height="126" fill="${P.ground}"/>
+  ${Array.from({length:21},(_,i)=>`<rect x="${i*40}" y="426" width="16" height="46" fill="${P.wood}"/>`).join('')}
+  <rect y="434" width="800" height="6" fill="${L}"/><rect y="462" width="800" height="6" fill="${L}"/>
+  <rect x="250" y="255" width="330" height="152" rx="24" fill="${P.paper}" stroke="${L}" stroke-width="3.5"/>
+  <rect x="252" y="346" width="326" height="28" fill="${P.sea}"/><rect x="252" y="374" width="326" height="8" fill="${P.yellow}"/>
+  <g fill="${P.sky.summer}" stroke="${L}" stroke-width="2.5"><rect x="275" y="276" width="56" height="50" rx="5"/><rect x="343" y="276" width="56" height="50" rx="5"/><rect x="411" y="276" width="56" height="50" rx="5"/><rect x="487" y="272" width="76" height="58" rx="8"/></g>
+  <circle cx="320" cy="410" r="30" fill="${L}"/><circle cx="320" cy="410" r="10" fill="${P.wall}"/><circle cx="520" cy="410" r="30" fill="${L}"/><circle cx="520" cy="410" r="10" fill="${P.wall}"/>
+  <circle cx="575" cy="428" r="12" fill="${P.pink}" stroke="${L}" stroke-width="2.5"/>
+  <rect x="660" y="240" width="8" height="92" fill="${L}"/><rect x="620" y="226" width="110" height="32" rx="4" fill="${P.paper}" stroke="${L}" stroke-width="3"/>
+  <text x="675" y="248" text-anchor="middle" font-family="Zen Maru Gothic,sans-serif" font-weight="700" font-size="15" fill="${L}">あわかいなん</text>`,
+ clinic:s=>`<rect width="800" height="500" fill="${P.sky[s]}"/><path d="M0 250 Q200 196 420 236 T800 220 V320 H0Z" fill="${P.hill}"/>
+  <g fill="${P.mid}"><circle cx="110" cy="300" r="56"/><circle cx="160" cy="270" r="48"/><circle cx="70" cy="262" r="40"/></g><rect x="106" y="320" width="12" height="100" fill="${P.wood}"/>
+  <rect y="418" width="800" height="82" fill="${P.ground}"/>
+  <rect x="230" y="190" width="360" height="230" fill="${P.paper}" stroke="${L}" stroke-width="3"/><rect x="214" y="168" width="392" height="28" fill="${P.navy}" stroke="${L}" stroke-width="3"/>
+  <g fill="${P.sky.summer}" stroke="${L}" stroke-width="2.5"><rect x="256" y="256" width="60" height="44"/><rect x="336" y="256" width="60" height="44"/><rect x="424" y="256" width="60" height="44"/><rect x="504" y="256" width="60" height="44"/><rect x="256" y="330" width="60" height="44"/><rect x="504" y="330" width="60" height="44"/></g>
+  <rect x="378" y="324" width="66" height="96" fill="${P.sea}" stroke="${L}" stroke-width="3"/><line x1="411" y1="324" x2="411" y2="420" stroke="${L}" stroke-width="2"/>
+  <rect x="318" y="205" width="184" height="36" rx="3" fill="${P.wall}" stroke="${L}" stroke-width="2.5"/>
+  <text x="410" y="230" text-anchor="middle" font-family="Zen Maru Gothic,sans-serif" font-weight="700" font-size="19" fill="${L}">町の診療所</text>
+  <rect x="530" y="212" width="22" height="7" fill="${P.sea}"/><rect x="537.5" y="204.5" width="7" height="22" fill="${P.sea}"/>
+  <rect x="620" y="400" width="110" height="10" fill="${P.wood}" stroke="${L}" stroke-width="2"/><rect x="630" y="410" width="6" height="16" fill="${L}"/><rect x="714" y="410" width="6" height="16" fill="${L}"/>`,
+ place:s=>`<rect width="800" height="500" fill="${P.wall}"/><rect y="380" width="800" height="120" fill="#D9C29A"/>
+  <rect x="470" y="64" width="270" height="196" fill="${P.sky[s]}" stroke="${L}" stroke-width="4"/><circle cx="660" cy="120" r="26" fill="${P.yellow}"/><rect x="472" y="180" width="266" height="78" fill="${P.sea}"/>
+  <line x1="605" y1="64" x2="605" y2="260" stroke="${L}" stroke-width="4"/>
+  <rect x="60" y="64" width="320" height="200" fill="#D6B07A" stroke="${L}" stroke-width="3"/>
+  <g stroke="${L}" stroke-width="2"><g transform="rotate(-6 120 120)"><rect x="86" y="90" width="72" height="58" fill="${P.paper}"/><rect x="92" y="96" width="60" height="38" fill="${P.sea}"/></g>
+  <g transform="rotate(5 220 130)"><rect x="186" y="96" width="76" height="62" fill="${P.paper}"/><rect x="192" y="102" width="64" height="40" fill="${P.hill}"/></g>
+  <g transform="rotate(-3 320 150)"><rect x="286" y="108" width="68" height="84" fill="${P.paper}"/><rect x="292" y="114" width="56" height="40" fill="${P.yellow}"/></g>
+  <g transform="rotate(4 140 210)"><rect x="104" y="178" width="88" height="62" fill="${P.paper}"/><line x1="112" y1="194" x2="182" y2="194"/><line x1="112" y1="208" x2="172" y2="208"/><line x1="112" y1="222" x2="178" y2="222"/></g></g>
+  <g fill="${P.pink}"><circle cx="122" cy="92" r="5"/><circle cx="224" cy="98" r="5"/><circle cx="320" cy="110" r="5"/><circle cx="148" cy="180" r="5"/></g>
+  <rect x="110" y="370" width="580" height="24" fill="${P.wood}" stroke="${L}" stroke-width="3"/><rect x="140" y="394" width="14" height="96" fill="${P.wood}" stroke="${L}" stroke-width="2"/><rect x="646" y="394" width="14" height="96" fill="${P.wood}" stroke="${L}" stroke-width="2"/>
+  <g stroke="${L}" stroke-width="2"><rect x="200" y="350" width="90" height="22" fill="${P.paper}" transform="rotate(-4 245 360)"/><rect x="330" y="348" width="80" height="24" fill="${P.yellow}" transform="rotate(6 370 360)"/><rect x="450" y="352" width="96" height="20" fill="${P.paper}" transform="rotate(-2 498 362)"/></g>`,
+ home:s=>`<rect width="800" height="500" fill="#E9E4D8"/><rect y="372" width="800" height="128" fill="#CFC79A"/>
+  ${[0,1,2,3].map(i=>`<line x1="0" y1="${400+i*28}" x2="800" y2="${400+i*28}" stroke="${L}" stroke-width="1.2" opacity=".35"/>`).join('')}
+  <rect x="180" y="58" width="440" height="250" fill="${P.sky[s]}" stroke="${L}" stroke-width="5"/><circle cx="500" cy="120" r="34" fill="${P.yellow}"/>
+  <path d="M182 230 L260 160 L340 210 L430 150 L520 220 L618 190 V306 H182Z" fill="${P.hill}"/>${cedars(250,9,44,P.mid,200,600,4)}
+  <rect x="182" y="250" width="436" height="56" fill="${P.sea}"/><line x1="400" y1="58" x2="400" y2="308" stroke="${L}" stroke-width="5"/>
+  <rect x="560" y="330" width="210" height="18" fill="${P.wood}" stroke="${L}" stroke-width="3"/><rect x="580" y="348" width="12" height="80" fill="${P.wood}" stroke="${L}" stroke-width="2"/><rect x="738" y="348" width="12" height="80" fill="${P.wood}" stroke="${L}" stroke-width="2"/>
+  <path d="M700 330 V280 L730 262" stroke="${L}" stroke-width="4" fill="none"/><path d="M716 250 L752 262 L736 284Z" fill="${P.yellow}" stroke="${L}" stroke-width="2.5"/>`,
+ school:s=>`<rect width="800" height="500" fill="${P.wall}"/><rect y="390" width="800" height="110" fill="#CDB487"/>
+  <rect x="120" y="54" width="560" height="230" fill="${P.forest}" stroke="${P.wood}" stroke-width="10"/>
+  <text x="400" y="150" text-anchor="middle" font-family="Zen Maru Gothic,sans-serif" font-weight="700" font-size="40" fill="${P.paper}" opacity=".9">しょうらいの ゆめ</text>
+  <path d="M260 200 q40 -20 80 0 t80 0" stroke="${P.yellow}" stroke-width="3" fill="none" opacity=".8"/><circle cx="560" cy="210" r="18" fill="none" stroke="${P.paper}" stroke-width="3" opacity=".7"/>
+  ${[150,340,530].map(x=>`<rect x="${x}" y="360" width="130" height="16" fill="${P.wood}" stroke="${L}" stroke-width="2.5"/><rect x="${x+10}" y="376" width="8" height="80" fill="${L}"/><rect x="${x+112}" y="376" width="8" height="80" fill="${L}"/>`).join('')}`,
+ river:()=>{let st='',ff='';for(let i=0;i<40;i++){st+=`<circle cx="${(i*197)%800}" cy="${(i*61)%200}" r="${1+(i%3)*.6}" fill="${P.paper}" opacity=".7"/>`}
+  for(let i=0;i<34;i++){const x=(i*113)%800,y=250+((i*71)%180);ff+=`<circle class="ff" style="animation-delay:${(i%7)*.33}s" cx="${x}" cy="${y}" r="${3+(i%3)}" fill="${P.glow}"/>`}
+  return `<rect width="800" height="500" fill="${P.night}"/>${st}<path d="M0 250 L140 170 L260 230 L400 150 L560 230 L680 180 L800 240 V500 H0Z" fill="#0E171C"/>
+  <path d="M0 400 C200 360 360 440 520 400 S760 370 800 390 V460 C640 450 520 480 380 450 S120 440 0 470Z" fill="#1E434A"/>${ff}`},
+ festival:()=>`<rect width="800" height="500" fill="${P.night}"/><path d="M0 300 L160 210 L320 280 L500 200 L660 270 L800 220 V500 H0Z" fill="#0E171C"/>
+  <path d="M0 110 Q200 170 400 110 T800 110" stroke="${P.paper}" stroke-width="2" fill="none" opacity=".6"/>
+  ${[60,140,220,300,380,460,540,620,700,770].map((x,i)=>{const y=110+30*Math.sin(Math.PI*x/400);return `<line x1="${x}" y1="${y-6}" x2="${x}" y2="${y+4}" stroke="${P.paper}" stroke-width="2"/><ellipse cx="${x}" cy="${y+22}" rx="15" ry="20" fill="${i%2?P.yellow:P.pink}" stroke="${L}" stroke-width="2"/>`}).join('')}
+  <path d="M220 250 L580 250 L620 300 L180 300Z" fill="${P.paper}" stroke="${L}" stroke-width="3"/>${[0,1,2,3,4,5,6,7].map(i=>`<path d="M${220+i*45} 250 L${265+i*45} 250 L${235+i*55} 300 L${180+i*55} 300Z" fill="${i%2?P.pink:P.paper}"/>`).join('')}
+  <rect x="210" y="300" width="380" height="120" fill="${P.wood}" stroke="${L}" stroke-width="3"/><rect x="0" y="420" width="800" height="80" fill="#26323A"/>
+  <text x="400" y="372" text-anchor="middle" font-family="Dela Gothic One,sans-serif" font-size="40" fill="${P.paper}">やきそば</text>`,
+ marathon:s=>`<rect width="800" height="500" fill="${P.sky[s]}"/><circle cx="660" cy="96" r="40" fill="${P.yellow}"/>
+  <path d="M0 230 L150 140 L280 200 L420 120 L560 200 L800 150 V320 H0Z" fill="${P.hill}"/>${cedars(300,18,70,P.mid,0,800,2)}
+  <path d="M0 320 C250 300 520 350 800 318 V372 C520 400 260 352 0 380Z" fill="${P.sea}"/>
+  <rect y="380" width="800" height="120" fill="${P.ground}"/><rect y="400" width="800" height="50" fill="#9C978A"/>
+  ${[120,210,300,420,520].map((x,i)=>`<g transform="translate(${x} ${420+(i%2)*8})"><circle cx="0" cy="-34" r="8" fill="${P.skin}" stroke="${L}" stroke-width="2"/><rect x="-8" y="-26" width="16" height="22" rx="4" fill="${[P.pink,P.yellow,P.sea,P.navy,P.pink][i]}" stroke="${L}" stroke-width="2"/><path d="M-4 -4 L-10 12 M4 -4 L10 12" stroke="${L}" stroke-width="3"/></g>`).join('')}
+  <rect x="620" y="440" width="150" height="14" fill="${P.paper}" stroke="${L}" stroke-width="2.5"/>${[640,670,700,730].map(x=>`<rect x="${x}" y="426" width="14" height="14" fill="${P.paper}" stroke="${L}" stroke-width="2"/>`).join('')}`
+};
+function mapSvg(){
+ const coast='M800 40 L720 100 L660 150 L600 195 L540 235 L500 262 L440 295 L360 335 L280 380 L190 425 L100 458 L0 478';
+ let w='';for(let i=0;i<14;i++){const x=300+((i*137)%480),y=330+((i*59)%160);if(y>x*-0.6+560)w+=`<path d="M${x} ${y} q8 -6 16 0 t16 0" stroke="${P.paper}" stroke-width="2" fill="none" opacity=".55"/>`}
+ return `<svg viewBox="0 0 800 500" preserveAspectRatio="none" aria-hidden="true"><rect width="800" height="500" fill="${P.sea}"/>${w}
+ <path d="M0 0 H800 V40 L720 100 L660 150 L600 195 L540 235 L500 262 L440 295 L360 335 L280 380 L190 425 L100 458 L0 478Z" fill="${P.land}"/>
+ <path d="${coast}" stroke="${P.sand}" stroke-width="12" fill="none" stroke-linejoin="round"/>
+ ${cedars(110,9,46,P.forest,20,400,1)}${cedars(170,8,52,P.mid,30,340,6)}${cedars(232,5,44,P.forest,20,230,4)}${cedars(70,5,36,P.mid,440,640,8)}${cedars(300,3,36,P.mid,10,120,2)}
+ <path d="M140 20 C210 110 300 150 380 190 S480 238 512 256" stroke="${P.sea}" stroke-width="8" fill="none" stroke-linecap="round"/>
+ <path d="M330 268 C380 268 420 280 452 290" stroke="${P.sea}" stroke-width="4" fill="none" stroke-linecap="round"/>
+ <path d="M700 88 L630 140 L560 200 L470 250 L380 296 L290 346 L200 392 L110 428 L20 448" stroke="${L}" stroke-width="5" fill="none" stroke-linejoin="round"/>
+ <path d="M700 88 L630 140 L560 200 L470 250 L380 296 L290 346 L200 392 L110 428 L20 448" stroke="${P.paper}" stroke-width="2.5" stroke-dasharray="9 9" fill="none"/>
+ <g font-family="Dela Gothic One,sans-serif" font-size="26" fill="${L}" opacity=".5"><text x="610" y="96">海南</text><text x="400" y="232">海部</text><text x="200" y="360">宍喰</text></g>
+ <g font-family="Zen Maru Gothic,sans-serif" font-weight="700" font-size="13" fill="${L}"><text x="290" y="262" opacity=".7">母川</text><text x="210" y="96" opacity=".7">海部川</text><text x="696" y="24">美波町へ ↑</text><text x="10" y="446">← 高知県</text></g>
+ <text x="610" y="430" font-family="Dela Gothic One,sans-serif" font-size="30" fill="${P.paper}" opacity=".6" letter-spacing="10">太平洋</text>
+ <g transform="translate(740 470)"><path d="M0 -24 L8 4 L0 -2 L-8 4Z" fill="${L}"/></g><text x="734" y="490" font-family="Zen Maru Gothic,sans-serif" font-weight="700" font-size="12" fill="${P.paper}">N</text>
+ </svg>`}
+
+function portrait(id){
+ const lk=CH[id].look;const body='M28 262 C28 196 58 168 100 168 C142 168 172 196 172 262Z';
+ let back='',front='',acc='';
+ if(lk.hair==='long')back=`<path d="M50 104 C44 40 156 40 150 104 L162 214 C140 204 60 204 38 214Z" fill="${L}"/>`;
+ if(lk.hair==='bob')back=`<path d="M50 100 C48 42 152 42 150 100 L154 146 L46 146Z" fill="${L}"/>`;
+ front=`<path d="M53 100 C50 50 150 50 147 100 C138 82 120 70 100 72 C80 70 62 82 53 100Z" fill="${L}"/>`;
+ if(lk.hair==='bun')acc+=`<circle cx="100" cy="52" r="17" fill="${L}"/>`;
+ if(lk.hair==='bob')front=`<path d="M52 104 C48 48 152 48 148 104 C140 92 130 84 120 84 L118 96 L106 82 L84 84 C70 86 58 94 52 104Z" fill="${L}"/>`;
+ const face=`<circle cx="83" cy="110" r="4.5" fill="${L}"/><circle cx="117" cy="110" r="4.5" fill="${L}"/><path d="M89 128 Q100 138 111 128" stroke="${L}" stroke-width="3" fill="none" stroke-linecap="round"/><circle cx="72" cy="124" r="7" fill="${P.pink}" opacity=".35"/><circle cx="128" cy="124" r="7" fill="${P.pink}" opacity=".35"/>`;
+ switch(lk.acc){
+  case'hachimaki':acc+=`<rect x="52" y="82" width="96" height="13" rx="3" fill="${P.paper}" stroke="${L}" stroke-width="2.5"/><path d="M146 86 L162 78 M146 90 L164 96" stroke="${L}" stroke-width="3" stroke-linecap="round"/>`;
+   acc+=`<path d="M68 196 L132 196 L138 262 L62 262Z" fill="${P.yellow}" stroke="${L}" stroke-width="2.5"/><path d="M76 196 L80 176 M124 196 L120 176" stroke="${L}" stroke-width="3"/>`;break;
+  case'helmet':acc+=`<path d="M50 98 C50 42 150 42 150 98Z" fill="${P.yellow}" stroke="${L}" stroke-width="3"/><rect x="42" y="92" width="116" height="10" rx="5" fill="${P.yellow}" stroke="${L}" stroke-width="3"/><path d="M100 50 V92" stroke="${L}" stroke-width="2"/>`;
+   acc+=`<rect x="44" y="214" width="112" height="9" fill="${P.yellow}"/><rect x="40" y="236" width="120" height="9" fill="${P.yellow}"/>`;break;
+  case'wetsuit':acc+=`<path d="M60 180 L80 262 M140 180 L120 262" stroke="${P.sea}" stroke-width="7"/>`;break;
+  case'cap':acc+=`<path d="M54 94 C54 48 146 48 146 94Z" fill="${P.navy}" stroke="${L}" stroke-width="3"/><path d="M50 94 L150 94 L160 104 L48 102Z" fill="${L}"/><circle cx="100" cy="72" r="8" fill="${P.yellow}" stroke="${L}" stroke-width="2"/>`;
+   acc+=`<path d="M84 168 L100 196 L116 168" fill="${P.paper}" stroke="${L}" stroke-width="2.5"/><path d="M96 190 L100 230 L104 190Z" fill="${P.pink}"/>`;break;
+  case'scrub':acc+=`<path d="M82 170 L100 200 L118 170" fill="none" stroke="${L}" stroke-width="3"/><rect x="122" y="208" width="26" height="14" rx="2" fill="${P.paper}" stroke="${L}" stroke-width="2"/>`;break;
+  case'glasses':acc+=`<circle cx="83" cy="110" r="13" fill="none" stroke="${L}" stroke-width="3"/><circle cx="117" cy="110" r="13" fill="none" stroke="${L}" stroke-width="3"/><path d="M96 110 H104" stroke="${L}" stroke-width="3"/>`;
+   acc+=`<path d="M78 172 Q100 186 122 172" fill="none" stroke="${L}" stroke-width="3"/>`;break;
+ }
+ const shadow=`<g transform="translate(8 5)" fill="${P.yellow}" opacity=".9"><path d="${body}"/><circle cx="100" cy="106" r="50"/></g>`;
+ return `<svg viewBox="0 0 200 262" aria-hidden="true">${shadow}${back}<path d="${body}" fill="${lk.body}" stroke="${L}" stroke-width="3"/><rect x="88" y="146" width="24" height="26" fill="${P.skin}" stroke="${L}" stroke-width="3"/><circle cx="100" cy="106" r="48" fill="${P.skin}" stroke="${L}" stroke-width="3"/>${front}${face}${acc}</svg>`;
+}
+
+/* ---------- view helpers ---------- */
+let curBg='';
+function setBg(k){curBg=k;stage.classList.toggle('is-map',k==='map');$('bg').innerHTML=k==='map'?mapSvg():BG[k](seasonOf(S?S.t:0))}
+let curP=null;
+function setPortrait(id){if(id===curP)return;curP=id;const p=$('portrait');if(!id){p.classList.add('off');return}p.innerHTML=portrait(id);p.classList.remove('off')}
+function toast(html){const t=document.createElement('div');t.className='toast';t.innerHTML=html;$('toasts').appendChild(t);setTimeout(()=>t.remove(),2300)}
+const lastUp={};
+function applyFx(fx){if(!fx)return;if(typeof fx==='string')fx={[fx]:1};for(const k in fx){const before=S.st[k];S.st[k]=Math.min(10,S.st[k]+fx[k]);if(S.st[k]>before){lastUp[k]=Date.now();toast(`${SK[k].name} <b>+${S.st[k]-before}</b>`)}}renderSkills()}
+function addNote(who,t){if(S.notes.some(x=>x.t===t))return;S.notes.push({who,t});toast('帖に、ことばを書きとめた')}
+
+function renderHeader(){
+ const on=S&&['map','scene'].includes(S.phase);
+ $('when').hidden=!on;$('bookBtn').hidden=!S||S.phase==='title';
+ if(on)$('when').textContent=whenText(S.t);
+ $('cal').innerHTML=on?Array.from({length:24},(_,i)=>`<i class="${i<S.t?'done':i===S.t?'now':''}"></i>`).join(''):'';
+}
+function renderSkills(){
+ if(!S)return;const now=Date.now();
+ $('skills').innerHTML=SKO.map(k=>{const v=S.st[k];const fresh=now-(lastUp[k]||0)<2500;return `<div class="sk" title="${SK[k].d}"><span class="stamp">${SK[k].k}</span><span class="nm">${SK[k].name}</span><span class="segbar">${Array.from({length:10},(_,i)=>`<i class="${i<v?(fresh&&i===v-1?'up':'on'):''}"></i>`).join('')}</span><span class="v">${v}</span></div>`}).join('');
+ const met=IDS.filter(id=>(S.ties[id]||0)>0).length;
+ $('tiesLine').innerHTML=`出会った人 <b>${met}</b>/6 ・ 帖のことば <b>${S.notes.length}</b><br><span class="hint">家族や先生以外の「ゆるいつながり」が、思いがけない扉をひらく。</span>`;
+}
+function lockText(id){const c=CH[id],n=S.ties[id]||0;if(n>=3)return '';const r=c.eps[n].req;if(!r||reqOk(r))return '';
+ if(r.stat)return `次の話は「${SK[r.stat].name}」${r.v} 以上(いま ${S.st[r.stat]})`;return `次の話は、町の人 ${r.met}人と出会ってから(いま ${metOthers()}人)`}
+function reqOk(r){return !r||(r.stat&&S.st[r.stat]>=r.v)||(r.met&&metOthers()>=r.met)}
+function renderPlaces(){
+ $('prompt').textContent=`${monthOf(S.t)}月${S.t%2?'後半':'前半'}。どこへ行こう?`;
+ const cards=IDS.map(id=>{const c=CH[id],n=S.ties[id]||0;const prog='●'.repeat(n)+'○'.repeat(3-n);const lk=lockText(id);
+  return `<button class="card" data-go="${id}"><span class="pl">${c.place}<span class="prog" aria-label="${n}/3話">${prog}</span></span>
+  <span class="who">${n?`${c.name}さん<span class="rumor">(${c.job})</span>`:`<span class="rumor">${c.rumor}</span><span class="badge">はじめて</span>`}</span>
+  ${lk?`<span class="lock">${lk}</span>`:n>=3?`<span class="who rumor">また顔を見に行こう</span>`:''}</button>`}).join('');
+ $('places').innerHTML=cards+`<button class="card home" data-go="home"><span class="pl">家ですごす</span><span class="who rumor">本を読む・手伝い・休む</span></button>`;
+ $('pins').innerHTML=IDS.map(id=>{const c=CH[id];return `<button class="pin ${(S.ties[id]||0)?'':'new'}" data-go="${id}" style="left:${c.pin[0]}%;top:${c.pin[1]}%" aria-label="${c.place}"><span class="lab">${c.pl}</span><span class="dot"></span></button>`}).join('')+`<button class="pin home" data-go="home" style="left:46%;top:56%" aria-label="家"><span class="lab">家</span><span class="dot"></span></button>`;
+}
+
+/* ---------- scene engine ---------- */
+let Q=[],qi=0,onDone=null,typer=null,full='';
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+function play(lines,done){Q=lines.slice();qi=0;onDone=done;S.phase=S.phase==='ending'?'ending':'scene';
+ $('pins').hidden=true;$('ov').hidden=true;$('placesWrap').hidden=true;renderHeader();step()}
+function step(){
+ while(qi<Q.length){const x=Q[qi];
+  if(x.bg){setBg(x.bg);setPortrait(null);qi++;continue}
+  if(x.note){addNote(x.who,x.t||x.note);qi++;continue}
+  if(x.flag){S.flags[x.flag]=1;qi++;continue}
+  if(x.fx){applyFx(x.fx);qi++;continue}
+  if(x.when){qi++;continue}
+  break}
+ if(qi>=Q.length){$('textbox').hidden=true;setPortrait(null);const d=onDone;onDone=null;d&&d();return}
+ const x=Q[qi];
+ if(x.c){showChoices(x.c);return}
+ showLine(x);
+}
+function showLine(x){
+ const tb=$('textbox'),tag=$('nametag');tb.hidden=false;
+ let txt,name=null,isMe=false;
+ if(x.n){txt=fmt(x.n,false)}else if(x.me){txt=fmt(x.me,false);name=S.name;isMe=true}else{txt=fmt(x.t,true);name=CH[x.s].short;setPortrait(x.s)}
+ tag.hidden=!name;tag.textContent=name||'';tag.classList.toggle('me',isMe);
+ full=txt;const p=$('text');clearInterval(typer);$('more').hidden=true;
+ if(reduce){p.textContent=full;$('more').hidden=false;typer=null;return}
+ let i=0;p.textContent='';typer=setInterval(()=>{i++;p.textContent=full.slice(0,i);if(i>=full.length){clearInterval(typer);typer=null;$('more').hidden=false}},26);
+}
+function advance(){if(!$('choices').hidden)return;if(typer){clearInterval(typer);typer=null;$('text').textContent=full;$('more').hidden=false;return}qi++;step()}
+function showChoices(opts){
+ const box=$('choices');box.hidden=false;
+ box.innerHTML=opts.map((op,i)=>`<button class="choice" data-i="${i}">${esc(fmt(op.l,false))}</button>`).join('');
+ box.querySelectorAll('.choice').forEach(b=>b.onclick=()=>{const op=opts[+b.dataset.i];box.hidden=true;
+  const extra=[];const mq=op.l.match(/^「([^」]*)」/);if(mq)extra.push(me(mq[1]));
+  Q.splice(qi+1,0,...extra,{fx:op.fx},...op.r);qi++;step()});
+ box.querySelector('.choice').focus();
+}
+$('textbox').addEventListener('click',advance);
+$('textbox').addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();advance()}});
+document.addEventListener('keydown',e=>{if($('modal').hidden&&!$('textbox').hidden&&$('choices').hidden&&(e.key==='Enter'||e.key===' ')&&document.activeElement===document.body){e.preventDefault();advance()}});
+
+/* ---------- flow ---------- */
+function showTitle(){
+ S=S||fresh();S.phase='title';renderHeader();$('below').hidden=true;$('zine').hidden=true;stage.hidden=false;
+ setBg('title');setPortrait(null);$('textbox').hidden=true;$('pins').hidden=true;
+ const has=load();const can=has&&has.phase!=='title'&&has.phase!=='ending'&&has.name;
+ const ov=$('ov');ov.hidden=false;ov.className='ov title-ov';
+ ov.innerHTML=`<div class="title-left"><p>海と川と杉の山にかこまれた町、海陽町。<br>小学6年生の1年間で、はたらく大人たちに会いにいこう。</p>
+ <div class="title-btns"><button class="btn primary" id="bNew">はじめから</button>${can?`<button class="btn" id="bCont">つづきから(${whenText(has.t)})</button>`:''}</div></div>
+ <h1 class="vtitle">ひとめぐり帖<small>海陽町で、はたらく人に会いにいく</small></h1>`;
+ $('bNew').onclick=showCreate;if(can)$('bCont').onclick=()=>{S=has;showMap()};
+}
+function showCreate(){
+ const ov=$('ov');ov.className='ov create-ov';let g='boy';
+ ov.innerHTML=`<div class="panel"><h2>主人公をきめよう</h2>
+ <div class="seg" role="group" aria-label="主人公"><button id="gB" aria-pressed="true">少年(ぼく)</button><button id="gG" aria-pressed="false">少女(わたし)</button></div>
+ <div class="field"><label for="nm">なまえ(8文字まで)</label><input id="nm" maxlength="8" value="海斗" autocomplete="off"></div>
+ <button class="btn primary" id="bGo">この子で、はじめる</button></div>`;
+ const set=v=>{g=v;$('gB').setAttribute('aria-pressed',v==='boy');$('gG').setAttribute('aria-pressed',v==='girl');const i=$('nm');if(['海斗','陽菜',''].includes(i.value.trim()))i.value=v==='boy'?'海斗':'陽菜'};
+ $('gB').onclick=()=>set('boy');$('gG').onclick=()=>set('girl');
+ $('bGo').onclick=()=>{S=fresh();S.g=g;S.I=g==='boy'?'ぼく':'わたし';S.suf=g==='boy'?'くん':'ちゃん';S.name=$('nm').value.trim()||(g==='boy'?'海斗':'陽菜');
+  $('ov').hidden=true;$('below').hidden=false;renderSkills();
+  play([bg('school'),n('春。{N}は、この4月で小学6年生になった。'),n('海陽町。海と、川と、杉の山にかこまれた町。'),n('クラスは5人。みんな、生まれたときからの知り合いだ。'),
+   n('「将来の夢」を書く宿題が出た。でも、{I}の紙は、まだ白いまま。'),n('知っている大人は、家族と、先生と……あとは、数えるほどしかいない。'),
+   me('……だったら、会いに行ってみよう。この町で、はたらく人たちに。'),bg('map'),n('マップから行き先をえらぼう。1か月に2回、出かけられる。'),n('人に会うと、5つの力が育つ。力が育つと、聞ける話がふえていく。'),n('3月の卒業式まで、あと24回。')],()=>showMap())};
+ $('nm').focus();
+}
+function showMap(){
+ S.phase='map';save();renderHeader();stage.hidden=false;$('zine').hidden=true;$('ov').hidden=true;
+ setBg('map');setPortrait(null);$('textbox').hidden=true;$('choices').hidden=true;
+ $('below').hidden=false;$('placesWrap').hidden=false;$('pins').hidden=false;renderPlaces();renderSkills();
+}
+function startTurn(){const ev=SEASONAL[S.t];if(ev&&!S.seen[ev]){S.seen[ev]=1;save();play(EV[ev],showMap)}else showMap()}
+function visit(id){
+ if(id==='home'){play([bg('home'),n('今日は、家ですごすことにした。'),ch(o('図書館で、仕事の本を読む','cur',n('世の中には、聞いたことのない仕事が、何百もあった。')),o('家の手伝いをする','fle',n('晩ごはんの魚をさばくのを手伝った。思ったより、むずかしい。')),o('のんびり休む','opt',n('ひさしぶりに、ぐっすり眠れた。明日もがんばろう。')))],endAction);return}
+ const c=CH[id],k=S.ties[id]||0;
+ if(k>=3){const r=SKO[Math.floor(Math.random()*5)];play([bg(c.bg),...c.after,{fx:r}],endAction);return}
+ const ep=c.eps[k];
+ if(!reqOk(ep.req)){const r=ep.req;const hint=r.stat?`もっと「${SK[r.stat].name}」が育ったら、${c.short}のちがう話が聞けるかもしれない。`:`町の人に、あと${r.met-metOthers()}人会ってから、また来よう。`;
+  play([bg(c.bg),...c.wait,n(hint),{fx:c.key}],endAction);return}
+ play([bg(c.bg),...ep.lines],()=>{S.ties[id]=k+1;applyFx(c.key);toast(`${c.short}とのつながり <b>${k+1}/3</b>`);renderSkills();endAction()});
+}
+function endAction(){
+ const m=monthOf(S.t);
+ if(!SEASONAL[S.t+1]&&Math.random()<.32){const pool=Object.keys(RAND).filter(k=>!S.seen[k]&&(()=>{const w=RAND[k].find(x=>x.when);return !w||w.when.includes(m)})());
+  if(pool.length){const k=pool[Math.floor(Math.random()*pool.length)];S.seen[k]=1;play([...RAND[k].slice(0,1),n('——思いがけない、できごと。'),...RAND[k].slice(1)],nextTurn);return}}
+ nextTurn();
+}
+function nextTurn(){S.t++;if(S.t>=24){ending();return}startTurn()}
+
+/* ---------- ending ---------- */
+const TITLES={cur:'なぜなぜ探検家',per:'こつこつ職人',fle:'しなやか旅人',opt:'おひさま係',risk:'はじめの一歩名人'};
+const TLINE={cur:'「なんで?」と聞くたびに、新しい扉がひらいた。',per:'うまくいかない日も、足を止めなかった。',fle:'予定どおりにいかない日を、楽しめるようになった。',opt:'「なんとかなる」と笑える日が、ふえた。',risk:'こわくても、一歩ふみ出せるようになった。'};
+function topStat(){return SKO.slice().sort((a,b)=>S.st[b]-S.st[a])[0]}
+function ending(){
+ S.phase='ending';save();const met=IDS.filter(id=>(S.ties[id]||0)>0).length;const top=topStat();
+ const L2=[bg('school'),n('3月。卒業式の日。'),n('教室のうしろの「将来の夢」の紙。1年前、{I}のは白いままだった。')];
+ if(met>=4)L2.push(n('今は、書きたいことがありすぎて、紙が足りない。'));
+ else if(met>=2)L2.push(n('今は、少しだけ、書けることがある。'));
+ else L2.push(n('今も、まだ白いまま。でもそれは「まだ何にでもなれる」ということだ。'),n('中学生になったら、もっと会いに行こう。'));
+ L2.push(n(TLINE[top]));
+ if(S.flags.zine)L2.push(n('ことりさんと作った雑誌が、町じゅうに配られた。表紙には、{N}の名前。'));
+ L2.push(n('将来の夢は、まだひとつに決まらない。でも、それでいい。'),n('扉は、思っていたより、たくさんあった。'));
+ play(L2,showZine);
+}
+function radar(){
+ const cx=160,cy=150,R=100;const pt=(i,r)=>{const a=-Math.PI/2+i*2*Math.PI/5;return[cx+Math.cos(a)*r,cy+Math.sin(a)*r]};
+ let g='';for(const f of[.25,.5,.75,1])g+=`<polygon points="${SKO.map((_,i)=>pt(i,R*f).join(',')).join(' ')}" style="fill:none;stroke:var(--ink-soft)" stroke-width="1" opacity=".5"/>`;
+ SKO.forEach((_,i)=>{const[x,y]=pt(i,R);g+=`<line x1="${cx}" y1="${cy}" x2="${x}" y2="${y}" style="stroke:var(--ink-soft)" stroke-width="1" opacity=".5"/>`});
+ const poly=SKO.map((k,i)=>pt(i,R*S.st[k]/10).join(',')).join(' ');
+ g+=`<polygon points="${poly}" style="fill:var(--teal);stroke:var(--teal)" fill-opacity=".35" stroke-width="3" stroke-linejoin="round"/>`;
+ SKO.forEach((k,i)=>{const[x,y]=pt(i,R*S.st[k]/10);g+=`<circle cx="${x}" cy="${y}" r="4.5" style="fill:var(--yellow);stroke:var(--ink)" stroke-width="1.5"/>`;const[lx,ly]=pt(i,R+26);g+=`<text x="${lx}" y="${ly+4}" text-anchor="middle">${SK[k].name} ${S.st[k]}</text>`});
+ return `<svg class="radar" viewBox="0 0 320 300" role="img" aria-label="5つの力のレーダー">${g}</svg>`;
+}
+function showZine(){
+ S.phase='ending';save();renderHeader();stage.hidden=true;$('below').hidden=true;
+ const met=IDS.filter(id=>(S.ties[id]||0)>0);const all=IDS.every(id=>(S.ties[id]||0)>=3);const top=topStat();
+ const title=all?'海陽町の編集長':TITLES[top];
+ const people=met.map(id=>{const c=CH[id];const q=S.notes.filter(x=>x.who===id).pop();return `<div class="zp"><div class="face">${portrait(id)}</div><div><div class="nm">${c.name}さん<span>${c.job}・${c.place}</span></div>${q?`<q>${esc(q.t)}</q>`:''}</div></div>`}).join('');
+ const un=IDS.filter(id=>!met.includes(id)).map(id=>CH[id].job).join('、');
+ const z=$('zine');z.hidden=false;
+ z.innerHTML=`<div class="mast"><h1>${esc(S.name)}の<br>ひとめぐり帖</h1><div class="issue">海陽町 はたらく人 特集号<br>6年生の1年間</div></div>
+ <div class="zgrid"><div><span class="titlebadge">${title}</span>${radar()}
+  <p class="lede">${esc(fmt(TLINE[top],false))}この1年で、${met.length}人の大人に出会い、${S.notes.length}個のことばを集めた。${S.flags.zine?'その言葉は、町の雑誌になった。':''}</p></div>
+  <div class="zpeople">${people||'<p class="lede">まだ、だれにも会えなかった。でも、町には会いに行ける人が、たくさんいる。</p>'}${un?`<p class="foot">まだ会っていない人:${un}</p>`:''}</div></div>
+ <p class="foot">このゲームの「5つの力」(好奇心・持続性・柔軟性・楽観性・冒険心)は、クランボルツの計画された偶発性理論(1999)で、偶然の出来事をキャリアの機会に変える力とされているものです。家族や学校の外の大人との「ゆるいつながり」(Granovetter, 1973)が、その偶然を運んできます。</p>
+ <div class="zbtns"><button class="btn primary" id="bAgain">もう一度、1年をすごす</button><button class="btn" id="bBook">帖をひらく</button></div>`;
+ $('bAgain').onclick=()=>{clearSave();S=null;$('zine').hidden=true;stage.hidden=false;showTitle()};$('bBook').onclick=openBook;
+ window.scrollTo({top:0,behavior:'smooth'});
+}
+
+/* ---------- book ---------- */
+function openBook(){
+ if(!S)return;const body=$('bookBody');
+ const people=IDS.map(id=>{const c=CH[id],k=S.ties[id]||0;const qs=S.notes.filter(x=>x.who===id);
+  return k?`<div class="person"><div class="pn">${c.name}さん</div><div class="pj">${c.job}・${c.place}・${'●'.repeat(k)}${'○'.repeat(3-k)}</div>${qs.map(x=>`<q>${esc(x.t)}</q>`).join('')}</div>`
+   :`<div class="person unmet"><div class="pn">???</div><div class="pj">${c.place}</div><div>${c.rumor}</div></div>`}).join('');
+ body.innerHTML=`<h3>出会った人と、ことば</h3><div class="people">${people}</div>
+ <h3 style="margin-top:18px">5つの力</h3><div class="skilldesc">${SKO.map(k=>`<div><span class="stamp">${SK[k].k}</span><span><b>${SK[k].name} ${S.st[k]}</b><br>${SK[k].d}</span></div>`).join('')}</div>
+ <p class="foot" style="margin-top:14px">5つの力は、クランボルツの計画された偶発性理論(Planned Happenstance Theory)にもとづいています。</p>`;
+ $('bookTitle').textContent=`${S.name}の帖`;$('modal').hidden=false;$('closeBook').focus();
+}
+function closeBook(){$('modal').hidden=true}
+$('bookBtn').onclick=openBook;$('closeBook').onclick=closeBook;
+$('modal').addEventListener('click',e=>{if(e.target.id==='modal')closeBook()});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('modal').hidden)closeBook()});
+document.addEventListener('click',e=>{const b=e.target.closest('[data-go]');if(b&&S&&S.phase==='map'){visit(b.dataset.go)}});
+
+/* ---------- boot (keeps progress across live updates) ---------- */
+window.claude?.hot?.snapshot?.(()=>({S}));
+function boot(data){
+ const d=data&&data.S?data.S:null;
+ if(d&&d.name&&(d.phase==='map'||d.phase==='scene')){S=d;$('below').hidden=false;showMap();return}
+ if(d&&d.phase==='ending'){S=d;showZine();return}
+ S=null;showTitle();
+}
+window.claude?.hot?.ready?window.claude.hot.ready(boot):boot(window.claude?.hot?.data??{});
+</script>
+
+</body></html>
